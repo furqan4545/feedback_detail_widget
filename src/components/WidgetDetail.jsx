@@ -24,7 +24,11 @@ const improvementOptions = [
   "Other",
 ];
 
-function FeedbackWidgetDetail({ allowedRoutes = [], displayAfter = 0 }) {
+function FeedbackWidgetDetail({
+  projectId,
+  allowedRoutes = [],
+  displayAfter = 0,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [satisfaction, setSatisfaction] = useState(null);
   const [improvements, setImprovements] = useState([]);
@@ -64,7 +68,7 @@ function FeedbackWidgetDetail({ allowedRoutes = [], displayAfter = 0 }) {
     e.preventDefault();
     // Here you would typically handle the form submission,
     // such as sending the data to an API
-    let projectId = 1;
+
     const formData = {
       p_project_id: parseInt(projectId, 10),
       p_face_rating: satisfaction,
