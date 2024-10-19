@@ -61,7 +61,7 @@ function FeedbackWidgetDetail({ allowedRoutes = [], displayAfter = 0 }) {
   return (
     <>
       <style>{tailwindstyles}</style>
-      <Card className="widget fixed bottom-4 right-4 w-80 shadow-lg">
+      <Card className="widget fixed bottom-4 right-4 w-80 shadow-2xl transform hover:scale-105 transition-all duration-300">
         <style>{tailwindstyles}</style>
         <CardHeader className="widget flex flex-row items-center justify-between space-y-0 pb-2 px-4 pt-4">
           <CardTitle className="text-sm font-medium leading-tight">
@@ -85,7 +85,7 @@ function FeedbackWidgetDetail({ allowedRoutes = [], displayAfter = 0 }) {
                 key={value}
                 variant={satisfaction === value ? "secondary" : "outline"}
                 size="lg"
-                className="w-[30%] h-10 text-xl"
+                className="w-[30%] h-10 text-xl shadow-md hover:shadow-lg transition-shadow duration-300"
                 onClick={() => setSatisfaction(value)}
               >
                 {value === 1 ? "🙁" : value === 2 ? "😐" : "😃"}
@@ -102,7 +102,7 @@ function FeedbackWidgetDetail({ allowedRoutes = [], displayAfter = 0 }) {
                     improvements.includes(option) ? "secondary" : "outline"
                   }
                   size="sm"
-                  className="h-auto py-1 px-2 text-[10px] leading-tight"
+                  className="h-auto py-1 px-2 text-[10px] leading-tight shadow-sm hover:shadow-md transition-shadow duration-300"
                   onClick={() =>
                     setImprovements((prev) =>
                       prev.includes(option)
@@ -122,13 +122,15 @@ function FeedbackWidgetDetail({ allowedRoutes = [], displayAfter = 0 }) {
             </p>
             <Textarea
               placeholder="Your feedback..."
-              className="resize-none text-sm"
+              className="resize-none text-sm shadow-inner"
               rows={3}
             />
           </div>
         </CardContent>
         <CardFooter className="widget px-4 pb-4 pt-0">
-          <Button className="w-full">Submit</Button>
+          <Button className="w-full shadow-md hover:shadow-lg transition-shadow duration-300">
+            Submit
+          </Button>
         </CardFooter>
       </Card>
     </>
