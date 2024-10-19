@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import supabase from "@/supabaseClient";
 import { Textarea } from "@/components/ui/textarea";
 import tailwindstyles from "../index.css?inline";
 
@@ -27,6 +28,7 @@ function FeedbackWidgetDetail({ allowedRoutes = [], displayAfter = 0 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [satisfaction, setSatisfaction] = useState(null);
   const [improvements, setImprovements] = useState([]);
+  const [feedbackText, setFeedbackText] = useState("");
 
   useEffect(() => {
     const checkRoute = () => {
@@ -57,6 +59,35 @@ function FeedbackWidgetDetail({ allowedRoutes = [], displayAfter = 0 }) {
   }, [allowedRoutes, displayAfter]);
 
   if (!isOpen) return null;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // Here you would typically handle the form submission,
+    // such as sending the data to an API
+    let projectId = 1;
+    const formData = {
+      p_project_id: parseInt(projectId, 10),
+      p_face_rating: satisfaction,
+      p_feeback_message: feedbackText,
+      p_feedback_suggestion: improvements.join(", "), // Convert array to comma-separated string
+    };
+
+    const { data: returnedData, error } = await supabase.rpc(
+      "add_detail_feedback",
+      formData
+    );
+    console.log(returnedData);
+    if (error) {
+      console.error(error);
+    } else {
+      console.log("Feedback submitted successfully:", returnedData);
+      setIsOpen(false); // Close the widget after successful submission
+      // Optionally, reset the form fields
+      setSatisfaction(null);
+      setImprovements([]);
+      setFeedbackText("");
+    }
+  };
 
   return (
     <>
@@ -124,11 +155,16 @@ function FeedbackWidgetDetail({ allowedRoutes = [], displayAfter = 0 }) {
               placeholder="Your feedback..."
               className="resize-none text-sm shadow-inner"
               rows={3}
+              value={feedbackText}
+              onChange={(e) => setFeedbackText(e.target.value)}
             />
           </div>
         </CardContent>
         <CardFooter className="widget px-4 pb-4 pt-0">
-          <Button className="w-full shadow-md hover:shadow-lg transition-shadow duration-300">
+          <Button
+            className="w-full shadow-md hover:shadow-lg transition-shadow duration-300"
+            onClick={handleSubmit}
+          >
             Submit
           </Button>
         </CardFooter>
